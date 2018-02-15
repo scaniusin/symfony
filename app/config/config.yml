@@ -148,9 +148,7 @@ jms_serializer:
                 path: "%kernel.root_dir%/../var/serializer/FOSUB"
 
 
-# CSA Guzzle
-csa_guzzle:
-    profiler: "%kernel.debug%"
+
 
 
 # Lexik JWT Bundle

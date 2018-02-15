@@ -38,3 +38,7 @@ bazinga_faker:
     entities:
         AppBundle\Entity\BlogPost:
             number: 50
+
+# CSA Guzzle
+csa_guzzle:
+    profiler: "%kernel.debug%"
