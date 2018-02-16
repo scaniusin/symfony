@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb639d95-eb28-4fa5-91a3-a7653979c1ba" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.htaccess" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -256,12 +255,12 @@
       <updated>1518712700642</updated>
       <workItem from="1518712738727" duration="2120000" />
       <workItem from="1518765512900" duration="47000" />
-      <workItem from="1518814392843" duration="1794000" />
+      <workItem from="1518814392843" duration="1883000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3961000" />
+    <option name="totallyTimeSpent" value="4050000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="994" extended-state="6" />
