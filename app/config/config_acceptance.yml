@@ -15,7 +15,8 @@ csa_guzzle:
         local_test_api:
             config:
 #                base_uri: "http://127.0.0.1:8000/app_acceptance.php/"
-                base_uri: "http://127.0.0.1:8000/"
+                # base_uri: "http://127.0.0.1:8000/"
+                base_uri: "https://backend-symfony.herokuapp.com/"
 
 
 
