@@ -10,7 +10,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
-    cors_allow_origin: 'http://gifted-austin-c0cbe1.netlify.com'
+    cors_allow_origin: ['http://gifted-austin-c0cbe1.netlify.com', 'https://gifted-austin-c0cbe1.netlify.com']
     api_name: 'Your API name'
     api_description: 'The full description of your API'
     jwt_private_key_path: '%kernel.root_dir%/../var/jwt/private.pem'
