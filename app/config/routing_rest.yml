@@ -13,3 +13,7 @@ profile:
 registration:
     type: rest
     resource: AppBundle\Controller\RestRegistrationController
+
+wallet:
+    type: rest
+    resource: AppBundle\Controller\RestWalletController

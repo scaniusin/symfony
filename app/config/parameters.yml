@@ -1,16 +1,17 @@
 # This file is auto-generated during the composer install!!
 parameters:
-    database_host: sql11.freemysqlhosting.net
+    database_host: localhost
     database_port: 3306
-    database_name: sql11221498
-    database_user: sql11221498
-    database_password: ydDSnwHL8A
+    database_name: symfonyreact
+    database_user: root
+    database_password: 1490
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
-    cors_allow_origin: 'https://gifted-austin-c0cbe1.netlify.com'
+    # cors_allow_origin: 'https://gifted-austin-c0cbe1.netlify.com'
+    cors_allow_origin: 'http://localhost:3000'
     api_name: 'Your API name'
     api_description: 'The full description of your API'
     jwt_private_key_path: '%kernel.root_dir%/../var/jwt/private.pem'

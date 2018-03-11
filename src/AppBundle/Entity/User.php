@@ -26,6 +26,14 @@ class User extends BaseUser
      * @JMSSerializer\Groups({"users_all","users_summary"})
      */
     protected $id;
+  
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+      return $this->id;
+    }
     /**
      * @JMSSerializer\Expose
      * @JMSSerializer\Type("string")
