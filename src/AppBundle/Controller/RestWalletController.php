@@ -33,10 +33,20 @@ class RestWalletController extends FOSRestController implements ClassResourceInt
 {
   
   /**
-   * Gets
+   * @param Request $request
+   * @return mixed
+   * @throws \Doctrine\ORM\NoResultException
+   * @throws \Doctrine\ORM\NonUniqueResultException
    * @Annotations\Get("/wallet/{user}/address")
    * @ParamConverter("user", class="AppBundle:User")
-   *
+   * @ApiDoc(
+   *     input="AppBundle\Form\Type\WalletType",
+   *     output="AppBundle\Entity\Wallet",
+   *     statusCodes={
+   *         201 = "Returned when a new Wallet has been successful created",
+   *         404 = "Return when not found"
+   *     }
+   * )
    */
   public function getAction(UserInterface $user)
   {
@@ -44,64 +54,13 @@ class RestWalletController extends FOSRestController implements ClassResourceInt
       throw new AccessDeniedHttpException();
     }
     
-    $wallet = $this->getWalletRepository()->createFindOneByIdQuery($user->getId())->getSingleResult();
+    $wallet = $this->getWalletRepository()->createFindOneByIdQuery($user->getId())->getOneOrNullResult();
     
     if ($wallet === null) {
       return new View(null, Response::HTTP_NOT_FOUND);
     }
     
     return $wallet->getPublicAddress();
-  }
-  
-  /**
-   * @param Request $request
-   * @param UserInterface $user
-   * @return View|\Symfony\Component\Form\Form
-   * @throws \Doctrine\ORM\NoResultException
-   * @throws \Doctrine\ORM\NonUniqueResultException
-   * @Annotations\Put("/wallet/{user}/address")
-   * @ParamConverter("user", class="AppBundle:User")
-   *
-   * @ApiDoc(
-   *     input="AppBundle\Form\Type\WalletType",
-   *     output="AppBundle\Entity\Wallet",
-   *     statusCodes={
-   *         204 = "Returned when an existing Wallet has been successful updated",
-   *         400 = "Return when errors",
-   *         404 = "Return when not found"
-   *     }
-   * )
-   */
-  public function putAction(Request $request, UserInterface $user)
-  {
-    if ($user !== $this->getUser()) {
-      throw new AccessDeniedHttpException();
-    }
-    
-    /**
-     * @var $wallet Wallet
-     */
-    $wallet = $this->getWalletRepository()->createFindOneByIdQuery($user->getId())->getSingleResult();
-    if ($wallet === null) {
-      return new View(null, Response::HTTP_NOT_FOUND);
-    }elseif($user->getId() != $request->get('user_id')){
-      throw new AccessDeniedHttpException();
-    }
-    $form = $this->createForm(WalletType::class, $wallet, [
-      'csrf_protection' => false,
-    ]);
-    $form->submit($request->request->all());
-    if (!$form->isValid()) {
-      return $form;
-    }
-    $em = $this->getDoctrine()->getManager();
-    $em->flush();
-    $routeOptions = [
-      'user_id' => $wallet->getUserId(),
-      '_format' => $request->get('_format'),
-    ];
-//    return $this->routeRedirectView('get_wallet', $routeOptions, Response::HTTP_NO_CONTENT);
-    return new JsonResponse(JsonResponse::HTTP_OK);
   }
   
   /**
@@ -128,7 +87,8 @@ class RestWalletController extends FOSRestController implements ClassResourceInt
       throw new AccessDeniedHttpException();
     }
   
-    $wallet = $this->getWalletRepository()->createFindOneByIdQuery($user->getId())->getSingleResult();
+    $wallet = $this->getWalletRepository()->createFindOneByIdQuery($user->getId())->getOneOrNullResult();
+    
     
     if ($wallet === null) {
       return $this->createAddress($request);
@@ -196,3 +156,60 @@ class RestWalletController extends FOSRestController implements ClassResourceInt
     return $this->get('crv.doctrine_entity_repository.wallet');
   }
 }
+
+
+
+
+
+
+
+//   /**
+//    * @param Request $request
+//    * @param UserInterface $user
+//    * @return View|\Symfony\Component\Form\Form
+//    * @throws \Doctrine\ORM\NoResultException
+//    * @throws \Doctrine\ORM\NonUniqueResultException
+//    * @Annotations\Put("/wallet/{user}/address")
+//    * @ParamConverter("user", class="AppBundle:User")
+//    *
+//    * @ApiDoc(
+//    *     input="AppBundle\Form\Type\WalletType",
+//    *     output="AppBundle\Entity\Wallet",
+//    *     statusCodes={
+//    *         204 = "Returned when an existing Wallet has been successful updated",
+//    *         400 = "Return when errors",
+//    *         404 = "Return when not found"
+//    *     }
+//    * )
+//    */
+//   public function putAction(Request $request, UserInterface $user)
+//   {
+//     if ($user !== $this->getUser()) {
+//       throw new AccessDeniedHttpException();
+//     }
+    
+//     *
+//      * @var $wallet Wallet
+     
+//     $wallet = $this->getWalletRepository()->createFindOneByIdQuery($user->getId())->getSingleResult();
+//     if ($wallet === null) {
+//       return new View(null, Response::HTTP_NOT_FOUND);
+//     }elseif($user->getId() != $request->get('user_id')){
+//       throw new AccessDeniedHttpException();
+//     }
+//     $form = $this->createForm(WalletType::class, $wallet, [
+//       'csrf_protection' => false,
+//     ]);
+//     $form->submit($request->request->all());
+//     if (!$form->isValid()) {
+//       return $form;
+//     }
+//     $em = $this->getDoctrine()->getManager();
+//     $em->flush();
+//     $routeOptions = [
+//       'user_id' => $wallet->getUserId(),
+//       '_format' => $request->get('_format'),
+//     ];
+// //    return $this->routeRedirectView('get_wallet', $routeOptions, Response::HTTP_NO_CONTENT);
+//     return new JsonResponse(JsonResponse::HTTP_OK);
+//   }

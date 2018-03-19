@@ -9,8 +9,7 @@ class WalletRepository extends EntityRepository
   public function createFindOneByIdQuery(int $id)
   {
     $query = $this->_em->createQuery(
-      "
-            SELECT wl
+      "SELECT wl
             FROM AppBundle:Wallet wl
             WHERE wl.userId = :id
             "
