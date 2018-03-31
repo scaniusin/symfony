@@ -1,10 +1,10 @@
 # This file is auto-generated during the composer install!!
 parameters:
-    database_host: sql11.freemysqlhosting.net
+    database_host: localhost
     database_port: 3306
-    database_name: sql11227542
-    database_user: sql11227542
-    database_password: fdPNs5eyxr
+    database_name: symfonyreact
+    database_user: root
+    database_password: 1490
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
