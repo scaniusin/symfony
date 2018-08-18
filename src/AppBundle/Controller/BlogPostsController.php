@@ -66,7 +66,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
   public function cgetAction()
   {
     $blogPosts = $this->getBlogPostRepository()->createFindAllQuery()->getResult();
-    $result;
+    $result = [];
 
     foreach($blogPosts as $blogPost) {
       $result[] = $blogPost[0]->setAuthor($blogPost['author']);
