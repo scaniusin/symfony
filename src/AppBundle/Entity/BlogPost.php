@@ -27,6 +27,52 @@ class BlogPost implements \JsonSerializable
    */
   private $body;
   /**
+   * @ORM\Column(type="integer", name="uid", nullable=FALSE)
+   * @JMSSerializer\Expose
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="blogpost")
+   * @ORM\JoinColumn(name="uid", referencedColumnName="id")
+   */
+  private $uid;
+
+  /**
+   * @var string
+   * @JMSSerializer\Expose
+   */
+  private $author;
+
+  /**
+   * @return mixed
+   */
+  public function getAuthor()
+  {
+    return $this->author;
+  }
+  /**
+   * @param mixed author
+   * @return BlogPost
+   */
+  public function setAuthor($author)
+  {
+    $this->author = $author;
+    return $this;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getUid()
+  {
+    return $this->uid;
+  }
+
+  /**
+   * @param mixed $uid
+   */
+  public function setUid($uid)
+  {
+    $this->uid = $uid;
+  }
+  /**
    * @return int
    */
   public function getId()

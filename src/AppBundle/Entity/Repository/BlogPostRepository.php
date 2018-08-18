@@ -12,12 +12,12 @@ class BlogPostRepository extends EntityRepository
   {
     $query = $this->_em->createQuery(
       "
-            SELECT bp
+            SELECT bp, u.username AS username
             FROM AppBundle:BlogPost bp
+            INNER JOIN AppBundle:User u WITH bp.uid = u.id
             WHERE bp.id = :id
             "
     );
-
     $query->setParameter('id', $id);
 
     return $query;
@@ -27,8 +27,9 @@ class BlogPostRepository extends EntityRepository
   {
     return $this->_em->createQuery(
       "
-            SELECT bp
+            SELECT bp, u.username AS author
             FROM AppBundle:BlogPost bp
+            INNER JOIN AppBundle:User u WITH bp.uid = u.id
             "
     );
   }

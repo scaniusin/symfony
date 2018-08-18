@@ -49,10 +49,15 @@ class User extends BaseUser
      */
     protected $email;
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\BlogPost", mappedBy="blogpost")
+     */
+    private $blogPosts;
+    /**
      * User constructor.
      */
     public function __construct()
     {
         parent::__construct();
+        $this->blogPosts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 }
