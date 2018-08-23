@@ -16,6 +16,9 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 /**
  * Class BlogPostsController
  * @package AppBundle\Controller
@@ -47,8 +50,9 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     if ($blogPost === null) {
       return new View(null, Response::HTTP_NOT_FOUND);
     }
+    $result = $blogPost[0]->setAuthor($blogPost['username']);
 
-    return $blogPost;
+    return $result;
   }
   /**
    * Gets a collection of BlogPosts
@@ -76,7 +80,8 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
   /**
    * @param Request $request
    * @return View|\Symfony\Component\Form\Form
-   *
+   * @ParamConverter("user", class="AppBundle:User")
+   * @Annotations\Post("/posts/{user}")
    * @ApiDoc(
    *     input="AppBundle\Form\Type\BlogPostType",
    *     output="AppBundle\Entity\BlogPost",
@@ -86,8 +91,12 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
    *     }
    * )
    */
-  public function postAction(Request $request)
+  public function postAction(Request $request, UserInterface $user)
   {
+    if ($user !== $this->getUser()) {
+      throw new AccessDeniedHttpException();
+    }
+
     $form = $this->createForm(BlogPostType::class, null, [
       'csrf_protection' => false,
     ]);
@@ -101,6 +110,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      * @var $blogPost BlogPost
      */
     $blogPost = $form->getData();
+    $blogPost->setUid($user->getId());
 
     $em = $this->getDoctrine()->getManager();
     $em->persist($blogPost);
@@ -111,10 +121,13 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     ];
     return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_CREATED);
   }
+
   /**
    * @param Request $request
    * @param int     $id
    * @return View|\Symfony\Component\Form\Form
+   * @ParamConverter("user", class="AppBundle:User")
+   * @Annotations\Put("/posts/{user}/{id}")
    *
    * @ApiDoc(
    *     input="AppBundle\Form\Type\BlogPostType",
@@ -126,8 +139,12 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
    *     }
    * )
    */
-  public function putAction(Request $request, int $id)
+  public function putAction(Request $request,  UserInterface $user, int $id)
   {
+    if ($user !== $this->getUser()) {
+      throw new AccessDeniedHttpException();
+    }
+
     /**
      * @var $blogPost BlogPost
      */

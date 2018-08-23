@@ -30,6 +30,7 @@ class BlogPostRepository extends EntityRepository
             SELECT bp, u.username AS author
             FROM AppBundle:BlogPost bp
             INNER JOIN AppBundle:User u WITH bp.uid = u.id
+            ORDER BY bp.id DESC
             "
     );
   }
